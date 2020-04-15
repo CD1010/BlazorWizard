@@ -7,7 +7,7 @@ namespace BlazorWizard.Components
     /// <summary>
     /// Wizard Component
     /// </summary>
-    public partial class Wizard
+    public partial class Wizard 
     {
         /// <summary>
         /// List of <see cref="WizardStep"/> added to the Wizard
@@ -43,6 +43,25 @@ namespace BlazorWizard.Components
         /// </summary>
 
         public bool IsLastStep { get; set; }
+
+
+        bool isValid;
+        /// <summary>
+        /// True if wizard is valid and we can move to next step.
+        /// </summary>
+        [Parameter]
+        public bool IsValid
+        {
+            get
+            {
+                return isValid;
+            }
+            set
+            {
+                isValid = value;
+                StateHasChanged();
+            }
+        }
 
         /// <summary>
         /// Sets the <see cref="ActiveStep"/> to the previous Index

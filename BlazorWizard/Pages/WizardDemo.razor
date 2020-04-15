@@ -1,8 +1,8 @@
 ﻿@page "/wizarddemo"
-<Wizard Id="DemoWizard">
-    <WizardStep Name="First Step">
-        <div class="row">
-           <p>This is the first step. You can enter something useful in here.</p>
+<Wizard  Id="DemoWizard">
+    <WizardStep  Name="First Step">
+        <div class="row">        
+            <FirstStep></FirstStep>
         </div>
     </WizardStep>
     <WizardStep Name="Second Step">
@@ -16,3 +16,7 @@
         </div>
     </WizardStep>
 </Wizard>
+
+@code {
+    Wizard TheWizard { get; set; }
+}

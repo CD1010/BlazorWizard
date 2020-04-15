@@ -1,0 +1,24 @@
+﻿
+
+
+<div class="row">
+    <div class="col-md-6">
+        <label>Check me</label>
+    </div>
+    <div class="col-md-6">
+        <Blazorise.CheckEdit @bind-Checked="@Parent.IsValid" >Check Me</Blazorise.CheckEdit>
+    
+    </div>
+ </div>
+@code { 
+
+    [CascadingParameter]
+    protected internal Wizard Parent { get; set; }
+
+    protected override void OnInitialized()
+    {
+
+        base.OnInitialized();
+    }
+
+}
