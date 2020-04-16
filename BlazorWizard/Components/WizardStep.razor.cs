@@ -26,24 +26,41 @@ namespace BlazorWizard.Components
         [Parameter]
         public string Name { get; set; }
 
+        bool enabled;
         [Parameter]
-        public bool Enabled { get; set; }
+        public bool Enabled
+        {
+            get 
+            { 
+                return enabled; 
+            }
+            set
+            {
+                enabled = value;
+                StateHasChanged();
+            }
+        }
 
         [Parameter]
         public EventCallback<bool> EnabledChanged { get; set; }
 
-        public  Task OnEnableChanged(bool enabled)
+        public Task OnEnableChanged(bool enabled)
         {
             return EnabledChanged.InvokeAsync(enabled);
         }
+
+        public void Refresh()
+        {
+            StateHasChanged();
+        }
         protected override void OnInitialized()
         {
-            
+
             Parent.AddStep(this);
         }
         protected override void OnParametersSet()
         {
-   
+
             base.OnParametersSet();
         }
     }

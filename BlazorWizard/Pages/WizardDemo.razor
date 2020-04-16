@@ -1,30 +1,75 @@
 ﻿@page "/wizarddemo"
-<Wizard  Id="DemoWizard">
-    <WizardStep  Name="First Step" Enabled="true">
-        <div class="row">        
-            <FirstStep></FirstStep>
-        </div>
-    </WizardStep>
-    <WizardStep @ref="Step2" Name="Second Step" Enabled="@step2Enabled">
-        <div class="row">
-            <p>Wow, you've reached the second step!</p>
-        </div>
-    </WizardStep>
-    <WizardStep Name="Final Step" Enabled="true">
-        <div class="row">
-      <p>The final step has been reached. Thank you \o/</p>
-        </div>
-    </WizardStep>
-</Wizard>
-<Blazorise.CheckEdit CheckedChanged="OnCheck">Remove Step</Blazorise.CheckEdit>
+@if (_task != null && _task.IsCompleted)
+{
+    <Wizard Id="DemoWizard">
+        <WizardStep Name="First Step" Enabled="true">
+            <div class="row">
+                <FirstStep></FirstStep>
+            </div>
+        </WizardStep>
+        <WizardStep @ref="Step2" Name="Second Step" @bind-Enabled="@step2Enabled">
+            <div class="row">
+                <p>Wow, you've reached the second step!</p>
+            </div>
+        </WizardStep>
+        <WizardStep Name="Final Step" @bind-Enabled="@step3Enabled">
+            <div class="row">
+                <p>The final step has been reached. Thank you \o/</p>
+            </div>
+        </WizardStep>
+    </Wizard>
+    <Blazorise.CheckEdit @ref="chkEnable" CheckedChanged="@OnCheck">Toggle Enabled</Blazorise.CheckEdit>
+}
+
 @code {
     Wizard TheWizard { get; set; }
     WizardStep Step2;
+    Task _task;
 
-    bool step2Enabled;
+    bool step2Enabled = true,
+        step3Enabled = true,
+     enableChecked = true;
+
     void OnCheck()
     {
-        step2Enabled = !step2Enabled;
+        step2Enabled = chkEnable.Checked;
+        step3Enabled = chkEnable.Checked;
+
+
+
+        StateHasChanged();
         //Step2.SetEnabled(step2Enabled);
     }
+    Blazorise.CheckEdit chkEnable;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+
+            //step2Enabled = chkEnable.Checked;
+            //step3Enabled = chkEnable.Checked;
+            //StateHasChanged();
+        }
+        Step2.Refresh();
+        base.OnAfterRender(firstRender);
+    }
+    protected override async  Task OnInitializedAsync()
+    {
+
+        _task =  base.OnInitializedAsync();
+        await _task;
+
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        //  step2Enabled = chkEnable.Checked;
+        // step3Enabled = chkEnable.Checked;
+        //_task =  base.OnParametersSetAsync();
+        //await _task;
+
+    }
+
+
 }
