@@ -3,8 +3,9 @@
         <ul class="nav nav-pills nav-justified">
             @foreach (var step in Steps)
             {
+                var enabled = step.Enabled == false ? "disabled" : "";
                 <li id="step-@(StepsIndex(step) + 1)" class="nav-item">
-                    <a class="nav-link @((ActiveStep == step) ? "active" : "")" href="javascript: void(0)" 
+                    <a class="nav-link @((ActiveStep == step) ? "active" : "") @enabled" href="javascript: void(0)"  
                        @onclick="@(e=> SetActive(step))">@step.Name</a>
                 </li>
             }

@@ -44,6 +44,7 @@ namespace BlazorWizard.Components
 
         public bool IsLastStep { get; set; }
 
+  
 
         bool isValid;
         /// <summary>
@@ -70,7 +71,18 @@ namespace BlazorWizard.Components
         protected internal void GoBack()
         {
             if (ActiveStepIx > 0)
-                SetActive(Steps[ActiveStepIx - 1]);
+            {
+                int start = Steps.IndexOf(ActiveStep) - 1;
+                for (int i = start; i>=0 ; i--)
+                {
+                    if (Steps[i].Enabled == true)
+                    {
+                        SetActive(Steps[i]);
+                        break;
+                    }
+                }
+            }
+            
         }
 
         /// <summary>
@@ -79,7 +91,17 @@ namespace BlazorWizard.Components
         protected internal void GoNext()
         {
             if (ActiveStepIx < Steps.Count - 1)
-                SetActive(Steps[(Steps.IndexOf(ActiveStep) + 1)]);
+            {
+                int start = Steps.IndexOf(ActiveStep)+1;
+                for (int i = start; i < Steps.Count; i++)
+                {
+                    if (Steps[i].Enabled == true)
+                    {
+                        SetActive(Steps[i]);
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using System.Threading.Tasks;
 
 namespace BlazorWizard.Components
 {
@@ -25,10 +26,25 @@ namespace BlazorWizard.Components
         [Parameter]
         public string Name { get; set; }
 
-      
+        [Parameter]
+        public bool Enabled { get; set; }
+
+        [Parameter]
+        public EventCallback<bool> EnabledChanged { get; set; }
+
+        public  Task OnEnableChanged(bool enabled)
+        {
+            return EnabledChanged.InvokeAsync(enabled);
+        }
         protected override void OnInitialized()
         {
+            
             Parent.AddStep(this);
+        }
+        protected override void OnParametersSet()
+        {
+   
+            base.OnParametersSet();
         }
     }
 }
