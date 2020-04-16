@@ -18,7 +18,7 @@
             </div>
         </WizardStep>
     </Wizard>
-    <Blazorise.CheckEdit @ref="chkEnable" CheckedChanged="@OnCheck">Toggle Enabled</Blazorise.CheckEdit>
+    <Blazorise.Button @ref="chkEnable" Class="btn btn-primary" Clicked="@OnClick">Toggle Enabled</Blazorise.Button>
 }
 
 @code {
@@ -30,17 +30,17 @@
         step3Enabled = true,
      enableChecked = true;
 
-    void OnCheck()
+    void OnClick()
     {
-        step2Enabled = chkEnable.Checked;
-        step3Enabled = chkEnable.Checked;
+        step2Enabled = !step2Enabled;
+        step3Enabled = !step3Enabled;
 
 
 
         StateHasChanged();
-        //Step2.SetEnabled(step2Enabled);
+        Step2.Refresh();
     }
-    Blazorise.CheckEdit chkEnable;
+    Blazorise.Button chkEnable;
 
     protected override void OnAfterRender(bool firstRender)
     {
