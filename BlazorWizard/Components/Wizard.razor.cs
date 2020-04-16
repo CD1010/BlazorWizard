@@ -7,7 +7,7 @@ namespace BlazorWizard.Components
     /// <summary>
     /// Wizard Component
     /// </summary>
-    public partial class Wizard 
+    public partial class Wizard : Fluxor.Blazor.Web.Components.FluxorComponent
     {
         /// <summary>
         /// List of <see cref="WizardStep"/> added to the Wizard
@@ -63,6 +63,7 @@ namespace BlazorWizard.Components
             }
         }
 
+        public int? NextStepIndex { get; set; }
         /// <summary>
         /// Sets the <see cref="ActiveStep"/> to the previous Index
         /// </summary>
@@ -78,10 +79,22 @@ namespace BlazorWizard.Components
         /// </summary>
         protected internal void GoNext()
         {
+            if( NextStepIndex != null)
+            {
+                SetActive(Steps[(int)NextStepIndex]);
+                return;
+            }
             if (ActiveStepIx < Steps.Count - 1)
+            {
                 SetActive(Steps[(Steps.IndexOf(ActiveStep) + 1)]);
+            }
         }
 
+        protected internal void GoToStep(int step)
+        {
+            if( step <  Steps.Count  )
+                SetActive(Steps[step]);
+        }
         /// <summary>
         /// Populates the <see cref="ActiveStep"/> the Sets the passed in <see cref="WizardStep"/> instance as the
         /// </summary>
@@ -127,6 +140,11 @@ namespace BlazorWizard.Components
                 SetActive(Steps[0]);
                 StateHasChanged();
             }
+        }
+
+        public void Refresh()
+        {
+            StateHasChanged();
         }
     }
 }

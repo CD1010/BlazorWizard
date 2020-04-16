@@ -8,6 +8,8 @@
     <PackageReference Include="Blazorise" Version="0.8.8.4" />
     <PackageReference Include="Blazorise.Bootstrap" Version="0.8.8.4" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="0.8.8.4" />
+    <PackageReference Include="Fluxor" Version="3.0.2" />
+    <PackageReference Include="Fluxor.Blazor.Web" Version="3.0.2" />
   </ItemGroup>
 
 </Project>

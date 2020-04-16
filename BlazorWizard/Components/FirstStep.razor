@@ -1,4 +1,4 @@
-﻿
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 
 <div class="row">
@@ -6,19 +6,42 @@
         <label>Check me</label>
     </div>
     <div class="col-md-6">
-        <Blazorise.CheckEdit @bind-Checked="@Parent.IsValid" >Check Me</Blazorise.CheckEdit>
-    
+        <Blazorise.CheckEdit @bind-Checked="@Parent.IsValid">Check Me</Blazorise.CheckEdit>
+        <Blazorise.CheckEdit CheckedChanged="OnSkip">Skip Step</Blazorise.CheckEdit>
+  
+
     </div>
- </div>
-@code { 
+</div>
+@code {
+
+    [Inject]
+    Fluxor.IDispatcher dispatcher { get; set; }
 
     [CascadingParameter]
     protected internal Wizard Parent { get; set; }
+
 
     protected override void OnInitialized()
     {
 
         base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        Parent.NextStepIndex = null;
+
+        base.OnParametersSet();
+    }
+
+ 
+
+    void OnSkip(bool chk)
+    {
+        if (chk)
+            Parent.NextStepIndex = 2;
+        else
+            Parent.NextStepIndex = null;
     }
 
 }

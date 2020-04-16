@@ -1,22 +1,68 @@
-﻿@page "/wizarddemo"
-<Wizard  Id="DemoWizard">
-    <WizardStep  Name="First Step">
-        <div class="row">        
+﻿@using Fluxor;
+@using BlazorWizard.Store;
+@inject IState<WizardState> state
+@page "/wizarddemo"
+@inject IDispatcher dispatcher
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<Wizard Id="DemoWizard">
+
+    <WizardStep Name="First" Visible="@state.Value.States[0].Visible">
+        <div class="row">
             <FirstStep></FirstStep>
         </div>
     </WizardStep>
-    <WizardStep Name="Second Step">
+
+    <WizardStep Name="Second Step" Visible="@state.Value.States[1].Visible">
         <div class="row">
             <p>Wow, you've reached the second step!</p>
         </div>
     </WizardStep>
-    <WizardStep Name="Final Step">
+    <WizardStep Name="Final Step" Visible="@state.Value.States[2].Visible">
         <div class="row">
-      <p>The final step has been reached. Thank you \o/</p>
+            <p>The final step has been reached. Thank you \o/</p>
         </div>
     </WizardStep>
 </Wizard>
+<Blazorise.Button Class="btn-lg btn-primary" Clicked="OnSubmit">Submit</Blazorise.Button>
 
 @code {
     Wizard TheWizard { get; set; }
+
+
+    void OnSubmit()
+    {
+        if( state.Value.States[1].Visible == false)
+            dispatcher.Dispatch(new BlazorWizard.Store.Wizard.WizardAllOnAction());
+        else
+            dispatcher.Dispatch(new BlazorWizard.Store.Wizard.WizardFirstOnAction());
+        StateHasChanged();
+        ShowStates();
+    }
+
+    protected override void OnInitialized()
+    {
+
+
+        dispatcher.Dispatch(new BlazorWizard.Store.Wizard.WizardFirstOnAction());
+        StateHasChanged();
+        base.OnInitialized();
+    }
+    protected override void OnParametersSet()
+    {
+        state.StateChanged += (o, ws) =>
+        {
+            StateHasChanged();
+        };
+        base.OnParametersSet();
+
+    }
+    void ShowStates()
+    {
+        System.Diagnostics.Debug.WriteLine("States");
+        foreach (var item in state.Value.States)
+        {
+            System.Diagnostics.Debug.WriteLine(item.Visible);
+        }
+    }
 }

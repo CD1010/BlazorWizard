@@ -13,6 +13,17 @@ namespace BlazorWizard.Components
         [CascadingParameter]
         protected internal Wizard Parent { get; set; }
 
+
+        [Parameter]
+        public bool Visible { get; set; } 
+
+        public void SetVisible(bool isVisible)
+        {
+            Visible = isVisible;
+
+        }
+
+        public EventCallback<bool> VisibleChanged;
         /// <summary>
         /// The Child Content of the current <see cref="WizardStep"/>
         /// </summary>
@@ -25,10 +36,17 @@ namespace BlazorWizard.Components
         [Parameter]
         public string Name { get; set; }
 
-      
+        protected override void OnParametersSet()
+        {
+ 
+
+            base.OnParametersSet();
+        }
+
         protected override void OnInitialized()
         {
             Parent.AddStep(this);
+                
         }
     }
 }
