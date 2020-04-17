@@ -1,6 +1,18 @@
-﻿@if (Parent.ActiveStep == this)
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@if (Parent.ActiveStep == this)
 {
-    <div id="step-@(Parent.StepsIndex(this) + 1)">
-        @ChildContent
-    </div>
+    if (Visible)
+    {
+        <div id="step-@(Parent.StepsIndex(this) + 1)">
+            @ChildContent
+        </div>
+    }
+    else
+    {
+        <div id="step-@(Parent.StepsIndex(this) + 1)" hidden>
+            @ChildContent
+        </div>
+    }
+
 }
