@@ -66,7 +66,7 @@ namespace BlazorWizard
             app.ApplicationServices
                 .UseBootstrapProviders()
                 .UseFontAwesomeIcons();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();

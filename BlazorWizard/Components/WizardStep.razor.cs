@@ -27,6 +27,7 @@ namespace BlazorWizard.Components
         public string Name { get; set; }
 
         bool enabled;
+
         [Parameter]
         public bool Enabled
         {

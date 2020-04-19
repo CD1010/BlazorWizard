@@ -1,21 +1,38 @@
-﻿<CascadingValue Value="this">
-    <div id="@Id">
-        <ul class="nav nav-pills nav-justified">
-            @foreach (var step in Steps)
-            {
-                var enabled = step.Enabled == false ? "disabled" : "";
-                <li id="step-@(StepsIndex(step) + 1)" class="nav-item">
-                    <a class="nav-link @((ActiveStep == step) ? "active" : "") @enabled" href="javascript: void(0)"  
-                       @onclick="@(e=> SetActive(step))">@step.Name</a>
-                </li>
-            }
-        </ul>
-        <div id="container-fluid">
-            @ChildContent
+﻿@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+    <CascadingValue Value="this">
+        <div id="@Id">
+            <ul class="nav nav-pills nav-justified">
+                @foreach (var step in Steps)
+                {
+                    var enabled = step.Enabled == false ? "disabled" : "";
+                    <li id="step-@(StepsIndex(step) + 1)" class="nav-item">
+                        <a class="nav-link @((ActiveStep == step) ? "active" : "") @enabled" href="javascript: void(0)"
+                           @onclick="@(e => SetActive(step))">@step.Name</a>
+                    </li>
+                }
+            </ul>
+            <div id="container-fluid">
+                @ChildContent
+            </div>
         </div>
-    </div>
-    <button class="btn btn-primary btn-lg" type="button" 
-            disabled="@(ActiveStepIx == 0)" @onclick="GoBack">Previous</button>
-    <button class="btn btn-primary btn-lg" 
-            type="@(IsLastStep ? "submit" : "button")" disabled="@(IsValid == false)" @onclick="GoNext">@(IsLastStep ? "Submit" : "Next")</button>
-</CascadingValue>
+        <button class="btn btn-primary btn-lg" type="button"
+                disabled="@(ActiveStepIx == 0)" @onclick="GoBack">
+            Previous
+        </button>
+        @{
+            if (IsValid)
+            {
+                <button class="btn btn-primary btn-lg"
+                        type="@(IsLastStep ? "submit" : "button")" @onclick="GoNext">
+                    @(IsLastStep ? "Submit" : "Next")
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary btn-lg"
+                        type="@(IsLastStep ? "submit" : "button")" disabled @onclick="GoNext">
+                    @(IsLastStep ? "Submit" : "Next")
+                </button>
+            }
+        }
+    </CascadingValue>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlazorWizard.Store
+namespace BlazorWizard.Store.Wizard
 {
     public class StepState
     {
