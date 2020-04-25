@@ -4,28 +4,48 @@
 @inject IState<WizardState> state
 
 @inject IDispatcher dispatcher
-@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<Wizard Id="DemoWizard">
 
-    <WizardStep Name="First" @bind-Enabled="@state.Value.States[0].Visible">
+@if (_task.IsCompleted)
+{
+<Wizard Id="DemoWizard" @ref="@TheWiz">
+
+    <WizardStep Name="First" Enabled="@state.Value.States[0].Visible">
         <div class="row">
             <FirstStep></FirstStep>
         </div>
     </WizardStep>
 
-    <WizardStep Name="Second Step" @bind-Enabled="@state.Value.States[1].Visible">
+    <WizardStep Name="Second Step" Enabled="@state.Value.States[1].Visible">
         <div class="row">
             <p>Wow, you've reached the second step!</p>
         </div>
     </WizardStep>
-    <WizardStep Name="Final Step" @bind-Enabled="@state.Value.States[2].Visible">
+    <WizardStep Name="Final Step" Enabled="@state.Value.States[2].Visible">
         <div class="row">
             <p>The final step has been reached. Thank you \o/</p>
         </div>
     </WizardStep>
 </Wizard>
-
+}
+else
+{
+    <div>Loading</div>
+}
 @code {
+    public Wizard TheWiz { set; get; }
+    Task _task;
+    protected override void  OnInitialized()
+    {
+
+    }
+    protected override void OnParametersSet()
+    {
+
+        StateHasChanged();
+        _task = Task.CompletedTask;
+        base.OnParametersSet();
+    }
+
 
 }

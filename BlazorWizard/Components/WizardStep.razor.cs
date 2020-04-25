@@ -50,6 +50,10 @@ namespace BlazorWizard.Components
             return EnabledChanged.InvokeAsync(enabled);
         }
 
+        public void SetEnabled( bool enabled )
+        {
+            Enabled = enabled;
+        }
         public void Refresh()
         {
             StateHasChanged();
@@ -63,6 +67,7 @@ namespace BlazorWizard.Components
         {
 
             base.OnParametersSet();
+            System.Diagnostics.Debug.WriteLine("Set parameters on: " + Name + " Enabled = " + Enabled);
         }
     }
 }

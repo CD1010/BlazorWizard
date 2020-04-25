@@ -7,13 +7,14 @@
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-<WizardDemoComponent></WizardDemoComponent>
+<WizardDemoComponent @ref="DemoComp"></WizardDemoComponent>
 
 <Blazorise.Button class="btn-lg btn-primary" Clicked="OnSubmit">Toggle State</Blazorise.Button>
 
 @code {
-    Wizard TheWizard { get; set; }
 
+
+    WizardDemoComponent DemoComp { get; set; }
 
     void OnSubmit()
     {
@@ -27,7 +28,7 @@
             dispatcher.Dispatch(new BlazorWizard.Store.Wizard.WizardFirstOnAction());
             System.Diagnostics.Debug.WriteLine("First ON");
         }
-        
+
         ShowStates();
     }
 
@@ -42,7 +43,7 @@
     }
     protected override void OnParametersSet()
     {
-     
+
         //state.StateChanged += (o, ws) =>
         //{
         //    StateHasChanged();
@@ -52,9 +53,12 @@
     }
     void ShowStates()
     {
+        int i = 0;
         System.Diagnostics.Debug.WriteLine("States");
         foreach (var item in state.Value.States)
         {
+            DemoComp.TheWiz.Steps[i].SetEnabled(item.Visible);
+            i++;
             System.Diagnostics.Debug.WriteLine(item.Visible);
         }
     }
