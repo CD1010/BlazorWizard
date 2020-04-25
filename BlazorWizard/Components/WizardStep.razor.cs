@@ -50,9 +50,41 @@ namespace BlazorWizard.Components
             return EnabledChanged.InvokeAsync(enabled);
         }
 
+        
         public void SetEnabled( bool enabled )
         {
             Enabled = enabled;
+            OnEnableChanged(enabled);
+            if( Parent.ActiveStep == this && enabled == false)
+            {
+                // If step we are on is invalid, move forward till one is valid.
+                bool found = false;
+                for (int i = Parent.ActiveStepIx; i < Parent.Steps.Count; i++)
+                {
+                    if (Parent.Steps[i].Enabled)
+                    {
+                        Parent.SetActive(Parent.Steps[i]);
+                        found = true;
+                        break;
+                    }
+                }
+                // If cant go forward, go back
+                if (!found)
+                {
+                    for (int i = Parent.ActiveStepIx - 1; i >= 0; i--)
+                    {
+                        if (Parent.Steps[i].Enabled)
+                        {
+                            Parent.SetActive(Parent.Steps[i]);
+                          
+                            break;
+                        }
+                    }
+              
+                }
+                // If all off, we are stuck.
+            }
+
         }
         public void Refresh()
         {
